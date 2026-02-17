@@ -1,0 +1,23 @@
+name: CI Pipeline
+
+on:
+  pull_request:
+    branches: [ develop, main ]
+  push:
+    branches: [ develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Линтинг (проверка синтаксиса)
+        run: |
+          pip install flake8
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+      - name: Заглушка для тестов
+        run: echo "Здесь могли быть ваши тесты, но пока просто привет!"
